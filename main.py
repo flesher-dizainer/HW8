@@ -69,19 +69,15 @@ def main():
     items_list = dict(sorted(list(full_dict.items()), key=lambda x: str(x[1]['year'])))
     print_result(items_list, description)
 
-    # 8. **Опционально:** Отсортируйте словарь `full_dict` по двум параметрам с использованием `lambda`,
-    # создавая аналогичный по структуре словарь.
-    # Обязательно укажите, по каким параметрам вы производите сортировку.
-    # происходит в несколько шагов:
-    # 1 - возвращаем словарь у которого год имеет int
-    # 2 - фильтруем по году
-    # 3 - Сортировка по названию
-    fil = dict(sorted(dict(filter(lambda x: x[1]['year'] == 2011,
-                                  {x: y for x, y in full_dict.items() if isinstance(y['year'], int)}.items()))
-                      .items(), key=lambda x: x[1]['title']))
-
-    print_result(items_list, description)
-
+    description = (
+        'Задание: **Опционально:** Отсортируйте словарь `full_dict` по двум параметрам с использованием `lambda`,'
+        ' создавая аналогичный по структуре словарь.'
+        ' Обязательно укажите, по каким параметрам вы производите сортировку.')
+    filter_full_dict = dict(sorted(dict(filter(lambda x: x[1]['year'] == 2011,
+                                               {x: y for x, y in full_dict.items() if
+                                                isinstance(y['year'], int)}.items()))
+                                   .items(), key=lambda x: x[1]['title']))
+    print_result(filter_full_dict, description)
 
 if __name__ == '__main__':
     main()
