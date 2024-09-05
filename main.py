@@ -66,18 +66,20 @@ def main():
         'Задание: **Опционально:** Отсортируйте словарь `full_dict` по одному параметру с использованием `lambda`,'
         'создавая аналогичный по структуре словарь.'
         'Обязательно укажите, по какому параметру вы производите сортировку.')
-    items_list = dict(sorted(list(full_dict.items()), key=lambda x: str(x[1]['year'])))
+    items_list = dict(sorted(full_dict.items(), key=lambda x: x[1]['year'] if isinstance(x[1]['year'], int) else False))
     print_result(items_list, description)
 
     description = (
         'Задание: **Опционально:** Отсортируйте словарь `full_dict` по двум параметрам с использованием `lambda`,'
         ' создавая аналогичный по структуре словарь.'
         ' Обязательно укажите, по каким параметрам вы производите сортировку.')
-    filter_full_dict = dict(sorted(dict(filter(lambda x: x[1]['year'] == 2011,
-                                               {x: y for x, y in full_dict.items() if
-                                                isinstance(y['year'], int)}.items()))
-                                   .items(), key=lambda x: x[1]['title']))
+    # сперва создаём словарь без None, потом сортируем по 2 ключам, по году и названию
+    filter_full_dict = dict(sorted(
+        (item for item in full_dict.items() if isinstance(item[1]['year'], int) & isinstance(item[1]['title'], str)),
+        key=lambda item: (item[1]['year'], item[1]['title'])
+    ))
     print_result(filter_full_dict, description)
+
 
 if __name__ == '__main__':
     main()
