@@ -23,16 +23,6 @@ def user_input_id() -> list[int | None]:
     return list(map(str_to_int_or_none, input('Введите цифры через пробел: ').split()))
 
 
-def int_to_str_dict_year(**marvel_dict):
-    """
-    Конвертер числа в строку
-    :param marvel_dict: словарь
-    :return: новый словарь со строкой ключа year
-    """
-    marvel_dict['year'] = str(marvel_dict['year'])
-    return marvel_dict
-
-
 def print_result(print_data: Dict[int, Dict[str, str | int]] | set, description: str):
     """
     Функция красивого вывода на экран
@@ -59,7 +49,7 @@ def main():
     print_result(set_director, description)
 
     description = 'Задание: С помощью `dict comprehension` создайте копию исходного словаря `full_dict`, преобразовав каждое значение [year] в строку.'
-    copy_full_dict = {key: int_to_str_dict_year(**value) for key, value in full_dict.items()}
+    copy_full_dict = {key: {**value, 'year': str(value['year'])} for key, value in full_dict.items()}
     print_result(copy_full_dict, description)
 
     description = 'Задание: Используйте `filter`, чтобы получить словарь, содержащий только те фильмы, которые начинаются на букву `Ч`.'
