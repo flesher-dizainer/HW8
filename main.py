@@ -1,5 +1,5 @@
 from dataset.marvel import full_dict
-from typing import Dict, Any
+from typing import Dict
 from pprint import pprint
 
 
@@ -33,7 +33,13 @@ def int_to_str_dict_year(**marvel_dict):
     return marvel_dict
 
 
-def print_result(print_data, description):
+def print_result(print_data: Dict[int, Dict[str, str | int]] | set, description: str):
+    """
+    Функция красивого вывода на экран
+    :param print_data: принимаем словарь или множество
+    :param description: описание задания
+    :return: None
+    """
     print('=' * 50)
     print(description)
     print('=' * 50)
@@ -66,7 +72,8 @@ def main():
         'Задание: **Опционально:** Отсортируйте словарь `full_dict` по одному параметру с использованием `lambda`,'
         'создавая аналогичный по структуре словарь.'
         'Обязательно укажите, по какому параметру вы производите сортировку.')
-    items_list = dict(sorted(full_dict.items(), key=lambda x: x[1]['year'] if isinstance(x[1]['year'], int) else False))
+    items_list: Dict[int, Dict[str, str | int]] = dict(
+        sorted(full_dict.items(), key=lambda x: x[1]['year'] if isinstance(x[1]['year'], int) else False))
     print_result(items_list, description)
 
     description = (
@@ -74,11 +81,21 @@ def main():
         ' создавая аналогичный по структуре словарь.'
         ' Обязательно укажите, по каким параметрам вы производите сортировку.')
     # сперва создаём словарь без None, потом сортируем по 2 ключам, по году и названию
-    filter_full_dict = dict(sorted(
+    filter_full_dict: Dict[int, Dict[str, str | int]] = dict(sorted(
         (item for item in full_dict.items() if isinstance(item[1]['year'], int) & isinstance(item[1]['title'], str)),
         key=lambda item: (item[1]['year'], item[1]['title'])
     ))
     print_result(filter_full_dict, description)
+
+    description = (
+        '9. **Опционально:** Напишите однострочник, который отфильтрует '
+        'и отсортирует `full_dict` с использованием `filter` и `sorted`.'
+    )
+    filter_sorted_dict: Dict[int, Dict[str, str | int]] = dict(sorted(
+        filter(lambda item: item[1]['year'] >= 2020 if (
+                isinstance(item[1]['year'], int) & isinstance(item[1]['title'], str)) else False, full_dict.items()),
+        key=lambda item: item[1]['title']))
+    print_result(filter_sorted_dict, description)
 
 
 if __name__ == '__main__':
